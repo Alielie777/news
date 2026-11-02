@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel, Field, ConfigDict
+from sqlalchemy.sql.coercions import cls
 
 
 class UserRequest(BaseModel):
@@ -34,3 +35,15 @@ class UserAuthResponse(BaseModel):
         populate_by_name=True, # alias和字段名兼容
         from_attributes=True,  # 允许从ORM对象中取值
     )
+
+class UserUpdateRequest (BaseModel):
+    nickname: str = None
+    avatar: str = None
+    gender: str = None
+    bio: str = None
+    phone: str = None
+
+class UserChangePasswordRequest(BaseModel):
+    old_password: str = Field(...,alias="oldPassword" ,description="旧密码")
+    new_password: str = Field(...,alias="newPassword",min_length=6,description="新密码")
+
